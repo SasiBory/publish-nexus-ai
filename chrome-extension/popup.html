@@ -1,396 +1,75 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publish Nexus AI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --pnx-ink: #1B263B;
-            --pnx-amber: #FFB84D;
-            --pnx-cyan: #00D1C1;
-            --pnx-dark: #2E2E2E;
-            --pnx-light: #F5F5F5;
-            --pnx-white: #FFFFFF;
-            --pnx-red: #E63946;
-            --pnx-green: #2A9D8F;
-            --pnx-grey: #E0E0E0;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            width: 380px;
-            min-height: 500px;
-            font-family: 'Sora', sans-serif;
-            background: var(--pnx-light);
-            color: var(--pnx-dark);
-        }
-
-        /* Header con marca */
-        .brand-header {
-            background: var(--pnx-ink);
-            color: var(--pnx-white);
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .brand-header::after {
-            content: "";
-            position: absolute;
-            bottom: -40px;
-            right: -40px;
-            width: 120px;
-            height: 120px;
-            background: radial-gradient(closest-side, var(--pnx-amber), transparent 70%);
-            filter: blur(6px);
-            opacity: 0.8;
-            border-radius: 50%;
-        }
-
-        .wordmark {
-            display: flex;
-            align-items: baseline;
-            gap: 8px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .wordmark .publish {
-            font-weight: 300;
-            font-style: italic;
-            color: var(--pnx-cyan);
-            font-size: 20px;
-        }
-
-        .wordmark .nexus {
-            font-weight: 900;
-            letter-spacing: 0.3px;
-            font-size: 24px;
-            font-style: italic;
-        }
-
-        .wordmark .ai {
-            font-weight: 700;
-            color: var(--pnx-amber);
-            font-size: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 2px 6px;
-            border-radius: 8px;
-            margin-left: 4px;
-        }
-
-        .tagline {
-            opacity: 0.9;
-            margin-top: 6px;
-            font-size: 11px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Estado de detección */
-        .detection-status {
-            background: var(--pnx-white);
-            margin: 16px;
-            padding: 12px;
-            border-radius: 12px;
-            border: 1px solid var(--pnx-grey);
-        }
-
-        .status-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .status-label {
-            font-weight: 600;
-            font-size: 13px;
-            color: var(--pnx-dark);
-        }
-
-        .status-value {
-            font-weight: 400;
-            font-size: 12px;
-        }
-
-        .status-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-right: 6px;
-        }
-
-        .status-active {
-            background: var(--pnx-green);
-            box-shadow: 0 0 8px rgba(42, 157, 143, 0.5);
-        }
-
-        .status-inactive {
-            background: var(--pnx-grey);
-        }
-
-        /* Botón principal de captura */
-        .capture-section {
-            padding: 0 16px 16px;
-        }
-
-        .btn-capture {
-            width: 100%;
-            background: linear-gradient(135deg, var(--pnx-amber) 0%, #e6a445 100%);
-            color: var(--pnx-ink);
-            border: none;
-            border-radius: 12px;
-            padding: 14px;
-            font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(255, 184, 77, 0.3);
-        }
-
-        .btn-capture:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 184, 77, 0.4);
-        }
-
-        .btn-capture:disabled {
-            background: var(--pnx-grey);
-            color: #999;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .btn-capture.success {
-            background: linear-gradient(135deg, var(--pnx-green) 0%, #238b7b 100%);
-            color: var(--pnx-white);
-        }
-
-        /* Sección de capturas recientes */
-        .captures-section {
-            padding: 16px;
-            background: var(--pnx-white);
-            border-top: 1px solid var(--pnx-grey);
-        }
-
-        .section-title {
-            font-weight: 700;
-            font-size: 14px;
-            color: var(--pnx-ink);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .captures-list {
-            max-height: 150px;
-            overflow-y: auto;
-        }
-
-        .capture-item {
-            background: var(--pnx-light);
-            border: 1px solid var(--pnx-grey);
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 8px;
-            transition: all 0.2s ease;
-        }
-
-        .capture-item:hover {
-            border-color: var(--pnx-cyan);
-            box-shadow: 0 2px 8px rgba(0, 209, 193, 0.2);
-        }
-
-        .capture-title {
-            font-weight: 600;
-            font-size: 12px;
-            color: var(--pnx-dark);
-            margin-bottom: 4px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .capture-meta {
-            display: flex;
-            gap: 12px;
-            font-size: 11px;
-            color: #666;
-        }
-
-        .pill {
-            display: inline-block;
-            padding: 2px 6px;
-            border-radius: 999px;
-            font-weight: 700;
-            font-size: 10px;
-        }
-
-        .pill.success {
-            background: rgba(42, 157, 143, 0.15);
-            color: var(--pnx-green);
-            border: 1px solid rgba(42, 157, 143, 0.35);
-        }
-
-        .pill.amber {
-            background: rgba(255, 184, 77, 0.2);
-            color: var(--pnx-ink);
-            border: 1px solid var(--pnx-amber);
-        }
-
-        /* Botones de acción */
-        .actions-row {
-            display: flex;
-            gap: 8px;
-            padding: 16px;
-            background: var(--pnx-white);
-            border-top: 1px solid var(--pnx-grey);
-        }
-
-        .btn-secondary {
-            flex: 1;
-            background: var(--pnx-white);
-            color: var(--pnx-ink);
-            border: 2px solid var(--pnx-ink);
-            border-radius: 10px;
-            padding: 10px;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
-            text-decoration: none;
-        }
-
-        .btn-secondary:hover {
-            background: var(--pnx-ink);
-            color: var(--pnx-white);
-        }
-
-        .btn-dashboard {
-            border-color: var(--pnx-cyan);
-            color: var(--pnx-cyan);
-        }
-
-        .btn-dashboard:hover {
-            background: var(--pnx-cyan);
-            color: var(--pnx-ink);
-        }
-
-        /* Empty state */
-        .empty-state {
-            text-align: center;
-            padding: 20px;
-            color: #999;
-            font-size: 12px;
-        }
-
-        /* Loading state */
-        .loading {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            border: 2px solid var(--pnx-amber);
-            border-radius: 50%;
-            border-top-color: transparent;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Scrollbar personalizada */
-        .captures-list::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .captures-list::-webkit-scrollbar-track {
-            background: var(--pnx-light);
-            border-radius: 3px;
-        }
-
-        .captures-list::-webkit-scrollbar-thumb {
-            background: var(--pnx-cyan);
-            border-radius: 3px;
-        }
-
-        .captures-list::-webkit-scrollbar-thumb:hover {
-            background: var(--pnx-amber);
-        }
-    </style>
+  <meta charset="utf-8">
+  <title>Publish Nexus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+        --pnx-ink: #1B263B;
+        --pnx-amber: #FFB84D;
+        --pnx-light: #F5F5F5;
+        --pnx-green: #2A9D8F;
+    }
+    body {
+      width: 300px;
+      font-family: 'Sora', sans-serif;
+      background: var(--pnx-light);
+      color: var(--pnx-ink);
+      text-align: center;
+      padding: 20px;
+    }
+    h3 {
+      font-weight: 700;
+      font-size: 18px;
+    }
+    p {
+      font-size: 14px;
+      margin: 15px 0;
+    }
+    a {
+      color: var(--pnx-green);
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-    <!-- Header con marca -->
-    <header class="brand-header">
-        <div class="wordmark">
-            <span class="publish">Publish</span>
-            <span class="nexus">Nexus</span>
-            <span class="ai">AI</span>
-        </div>
-        <p class="tagline">Inteligencia de mercado para autopublicadores</p>
-    </header>
+  <h3>Publish Nexus AI</h3>
+  <p id="info">Verificando estado...</p>
+  <a id="open-options">Ir a Opciones</a>
 
-    <!-- Estado de detección -->
-    <div class="detection-status">
-        <div class="status-row">
-            <span class="status-label">📍 Página detectada</span>
-            <span class="status-value">
-                <span class="status-dot status-inactive" id="page-status"></span>
-                <span id="page-type">No en Amazon</span>
-            </span>
-        </div>
-        <div class="status-row">
-            <span class="status-label">📊 Capturas hoy</span>
-            <span class="status-value pill amber" id="captures-today">0</span>
-        </div>
-    </div>
+  <script>
+    async function storageGet(keys) {
+      return new Promise(resolve => chrome.storage.sync.get(keys, res => resolve(res || {})));
+    }
 
-    <!-- Botón de captura -->
-    <div class="capture-section">
-        <button class="btn-capture" id="capture-btn" disabled>
-            <span class="btn-icon">🚀</span>
-            <span class="btn-text">Capturar con Nexus AI</span>
-        </button>
-    </div>
+    const optionsLink = document.getElementById('open-options');
+    if (optionsLink) {
+        optionsLink.addEventListener('click', () => {
+            chrome.runtime.openOptionsPage();
+        });
+    }
 
-    <!-- Capturas recientes -->
-    <div class="captures-section">
-        <h3 class="section-title">
-            📚 Capturas Recientes
-        </h3>
-        <div class="captures-list" id="captures-list">
-            <div class="empty-state">
-                No hay capturas todavía.<br>
-                Navega a un producto de Amazon para empezar.
-            </div>
-        </div>
-    </div>
+    (async () => {
+      const infoEl = document.getElementById('info');
+      const { consent, captures_day = 0, captures_date } = await storageGet(['consent', 'captures_day', 'captures_date']);
+      const today = new Date().toISOString().slice(0, 10);
 
-    <!-- Botones de acción -->
-    <div class="actions-row">
-        <button class="btn-secondary" id="config-btn">
-            ⚙️ Config
-        </button>
-        <button class="btn-secondary btn-dashboard" id="dashboard-btn">
-            📈 Dashboard
-        </button>
-    </div>
+      if (!consent) {
+        infoEl.innerHTML = 'Por favor, acepta la política de privacidad en la <a id="open-options-inner">página de opciones</a> para empezar a capturar.';
+        const innerLink = document.getElementById('open-options-inner');
+        if (innerLink) {
+            innerLink.addEventListener('click', () => {
+                chrome.runtime.openOptionsPage();
+            });
+        }
+        return;
+      }
 
-    <script src="popup.js"></script>
+      const dailyCaptures = captures_date === today ? captures_day : 0;
+      infoEl.innerHTML = `Estás listo para capturar.<br><br>Haz clic en el icono de la extensión en una página de producto de Amazon.<br><br>Capturas hoy: <strong>${dailyCaptures} / 150</strong>`;
+    })();
+  </script>
 </body>
 </html>

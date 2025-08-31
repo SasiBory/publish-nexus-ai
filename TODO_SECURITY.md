@@ -1,0 +1,9 @@
+ - [ ] Actualizar manifest.json según sugerido (quitar host_permissions masivos).
+ - [ ] Reemplazar background.js por la versión anterior (wrapper + rate-limit).
+ - [ ] Eliminar inyección automática desde content.js (o convertir a inyección temporal con Shadow DOM).
+ - [ ] Actualizar options.html con consentimiento y botón borrar datos.
+ - [ ] Quitar popup.html y options.html de web_accessible_resources.
+ - [ ] Implementar token short-lived en backend (opcional pero recomendado).
+ - [ ] Añadir PRIVACY.md y link en la ficha de store.
+ - [ ] Ejecutar npx eslint y npm audit y corregir vulnerabilidades críticas.
+ - [ ] Probar: instalar extension unpacked y hacer 10 capturas; revisar captures_day en storage y que en la 151ª muestre notificación de límite.

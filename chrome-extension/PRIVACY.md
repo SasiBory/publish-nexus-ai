@@ -1,0 +1,2 @@
+Privacy Policy (Resumen)
+Publish Nexus AI captura datos visibles en la página de producto solamente cuando el usuario lo solicita explícitamente. Datos capturados: título, ASIN/ID, precio, reseñas, rating, URL y metadata básica. Propósito: análisis y generación de insights para autores. Los datos son retenidos por 90 días por defecto y pueden borrarse en cualquier momento desde las opciones de la extensión. No vendemos datos personales. Para cargas masivas y uso para entrenamiento de modelos solicitamos consentimiento adicional explícito.

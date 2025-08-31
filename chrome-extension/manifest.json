@@ -1,72 +1,20 @@
 {
   "manifest_version": 3,
   "name": "Publish Nexus AI",
-  "version": "1.0.0",
-  "description": "Inteligencia de mercado para autopublicadores. No afiliado a Amazon.",
-  
-  "permissions": [
-    "activeTab",
-    "scripting",
-    "storage",
-    "tabs"
-  ],
-  
-  "host_permissions": [
-    "*://*.amazon.com/*",
-    "*://*.amazon.es/*",
-    "*://*.amazon.co.uk/*",
-    "*://*.amazon.de/*",
-    "*://*.amazon.fr/*",
-    "*://*.amazon.it/*",
-    "*://*.amazon.ca/*",
-    "*://*.amazon.com.mx/*",
-    "*://*.amazon.com.br/*",
-    "http://localhost:3000/*",
-    "http://localhost:3001/*",
-    "https://publish-nexus-api.vercel.app/*",
-    "https://api.publishnexus.ai/*"
-  ],
-  
-  "background": {
-    "service_worker": "background.js"
-  },
-  
-  "action": {
-    "default_popup": "popup.html",
-    "default_title": "Publish Nexus AI"
-  },
-
-  "options_page": "options.html",
-  
-  "content_scripts": [{
-    "matches": [
-      "*://*.amazon.com/*",
-      "*://*.amazon.es/*",
-      "*://*.amazon.co.uk/*",
-      "*://*.amazon.de/*",
-      "*://*.amazon.fr/*",
-      "*://*.amazon.it/*",
-      "*://*.amazon.ca/*",
-      "*://*.amazon.com.mx/*",
-      "*://*.amazon.com.br/*"
-    ],
-    "js": ["content.js"],
-    "css": ["styles.css"],
-    "run_at": "document_idle"
-  }],
-  
-  "web_accessible_resources": [{
-    "resources": ["popup.html", "styles.css"],
-    "matches": [
-      "*://*.amazon.com/*",
-      "*://*.amazon.es/*",
-      "*://*.amazon.co.uk/*",
-      "*://*.amazon.de/*",
-      "*://*.amazon.fr/*",
-      "*://*.amazon.it/*",
-      "*://*.amazon.ca/*",
-      "*://*.amazon.com.mx/*",
-      "*://*.amazon.com.br/*"
-    ]
-  }]
+  "version": "0.1.0",
+  "description": "Extensión para capturar datos de listings y enviarlos a Publish Nexus AI (user-initiated).",
+  "permissions": ["activeTab", "scripting", "storage", "notifications"],
+  "action": { "default_popup": "popup.html", "default_title": "Publish Nexus AI" },
+  "background": { "service_worker": "background.js" },
+  "icons": { "16": "icons/16.png", "48": "icons/48.png", "128": "icons/128.png" },
+  "web_accessible_resources": [
+    {
+      "resources": ["styles.css", "icons/*"],
+      "matches": [
+        "https://*.amazon.com/*",
+        "https://*.amazon.co.uk/*",
+        "https://*.amazon.es/*"
+      ]
+    }
+  ]
 }

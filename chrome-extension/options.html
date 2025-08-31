@@ -1,59 +1,41 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configuración - Publish Nexus AI</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="options.css">
-</head>
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Opciones - Publish Nexus</title></head>
 <body>
+  <h3>Publish Nexus — Opciones</h3>
+  <label><input type="checkbox" id="consent"> Acepto que Publish Nexus AI capture los datos visibles de la página actual y los envíe para análisis (retención 90 días).</label>
+  <br><br>
+  <label>Token temporal (opcional): <input id="token" placeholder="token temporal"></label>
+  <p>Si no pegás token, se usará el envío anónimo limitado.</p>
+  <br>
+  <button id="save">Guardar</button>
+  <button id="deleteAll">Borrar mis datos locales</button>
+  <script>
+    async function storageGet(keys) {
+      return new Promise(resolve => chrome.storage.sync.get(keys, res => resolve(res||{})));
+    }
+    async function storageSet(obj) {
+      return new Promise(resolve => chrome.storage.sync.set(obj, () => resolve()));
+    }
+    (async () => {
+      const s = await storageGet(['consent','token']);
+      document.getElementById('consent').checked = !!s.consent;
+      document.getElementById('token').value = s.token || '';
+    })();
 
-    <header class="header">
-        <div class="logo-container">
-            <span class="logo-text">Publish Nexus AI</span>
-        </div>
-        <nav class="nav-links">
-            <a href="popup.html">Inicio</a>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="options.html" class="active">Configuración</a>
-        </nav>
-    </header>
+    document.getElementById('save').addEventListener('click', async () => {
+      const consent = document.getElementById('consent').checked;
+      const token = document.getElementById('token').value.trim();
+      if (!consent) return alert('Debés aceptar la política para usar la extensión.');
+      await storageSet({ consent, token });
+      alert('Guardado');
+    });
 
-    <main class="container">
-        <h1>Configuración</h1>
-        
-        <div id="status-message" class="status-message" style="display: none;"></div>
-
-        <form id="options-form" class="options-form">
-            <div class="form-group">
-                <label for="api-url">URL de la API</label>
-                <input type="url" id="api-url" name="api-url" placeholder="https://tu-api.com/endpoint">
-                <small>La URL a la que se enviarán los datos capturados.</small>
-            </div>
-
-            <div class="form-group">
-                <label for="api-key">Clave de API (Opcional)</label>
-                <input type="password" id="api-key" name="api-key" placeholder="Tu clave secreta de API">
-                <small>Si tu API requiere autenticación por Bearer Token.</small>
-            </div>
-
-            <div class="form-group">
-                <label>Otras Opciones</label>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="auto-capture" name="auto-capture" disabled>
-                    <label for="auto-capture">Capturar automáticamente al visitar una página (Próximamente)</label>
-                </div>
-            </div>
-
-            <div class="form-actions">
-                <button type="submit" class="btn">Guardar Cambios</button>
-                <button type="button" id="test-connection-btn" class="btn btn-secondary">Probar Conexión</button>
-            </div>
-            <div id="test-status-message" class="status-message" style="display: none; margin-top: 15px;"></div>
-        </form>
-    </main>
-
-    <script src="options.js"></script>
+    document.getElementById('deleteAll').addEventListener('click', async () => {
+      if (!confirm('Borrarás todos tus datos locales. ¿Querés continuar?')) return;
+      await new Promise(r=> chrome.storage.sync.clear(r));
+      alert('Datos borrados localmente.');
+    });
+  </script>
 </body>
 </html>
