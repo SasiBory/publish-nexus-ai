@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Publish Nexus AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo-container">
+            <span class="logo-text">Publish Nexus AI</span>
+        </div>
+        <nav class="nav-links">
+            <a href="popup.html">Inicio</a>
+            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="options.html">Configuración</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="dashboard-header">
+            <h1>Dashboard de Capturas</h1>
+            <button id="clear-data-btn" class="btn btn-danger">Limpiar Todos los Datos</button>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3>Total Capturas</h3>
+                <p id="total-captures">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Capturas de Hoy</h3>
+                <p id="today-captures">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Categoría Principal</h3>
+                <p id="main-category">N/A</p>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table id="captures-table">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>ASIN</th>
+                        <th>Precio</th>
+                        <th>BSR</th>
+                        <th>Rating</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="captures-tbody">
+                    <!-- Las filas se insertarán aquí dinámicamente -->
+                </tbody>
+            </table>
+            <div id="empty-state" class="empty-state" style="display: none;">
+                <p>No hay datos para mostrar. Realiza algunas capturas para empezar.</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

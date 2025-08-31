@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración - Publish Nexus AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="options.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo-container">
+            <span class="logo-text">Publish Nexus AI</span>
+        </div>
+        <nav class="nav-links">
+            <a href="popup.html">Inicio</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="options.html" class="active">Configuración</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Configuración</h1>
+        
+        <div id="status-message" class="status-message" style="display: none;"></div>
+
+        <form id="options-form" class="options-form">
+            <div class="form-group">
+                <label for="api-url">URL de la API</label>
+                <input type="url" id="api-url" name="api-url" placeholder="https://tu-api.com/endpoint">
+                <small>La URL a la que se enviarán los datos capturados.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="api-key">Clave de API (Opcional)</label>
+                <input type="password" id="api-key" name="api-key" placeholder="Tu clave secreta de API">
+                <small>Si tu API requiere autenticación por Bearer Token.</small>
+            </div>
+
+            <div class="form-group">
+                <label>Otras Opciones</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="auto-capture" name="auto-capture" disabled>
+                    <label for="auto-capture">Capturar automáticamente al visitar una página (Próximamente)</label>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn">Guardar Cambios</button>
+                <button type="button" id="test-connection-btn" class="btn btn-secondary">Probar Conexión</button>
+            </div>
+            <div id="test-status-message" class="status-message" style="display: none; margin-top: 15px;"></div>
+        </form>
+    </main>
+
+    <script src="options.js"></script>
+</body>
+</html>

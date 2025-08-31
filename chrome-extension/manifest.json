@@ -1,0 +1,72 @@
+{
+  "manifest_version": 3,
+  "name": "Publish Nexus AI",
+  "version": "1.0.0",
+  "description": "Inteligencia de mercado para autopublicadores. No afiliado a Amazon.",
+  
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "tabs"
+  ],
+  
+  "host_permissions": [
+    "*://*.amazon.com/*",
+    "*://*.amazon.es/*",
+    "*://*.amazon.co.uk/*",
+    "*://*.amazon.de/*",
+    "*://*.amazon.fr/*",
+    "*://*.amazon.it/*",
+    "*://*.amazon.ca/*",
+    "*://*.amazon.com.mx/*",
+    "*://*.amazon.com.br/*",
+    "http://localhost:3000/*",
+    "http://localhost:3001/*",
+    "https://publish-nexus-api.vercel.app/*",
+    "https://api.publishnexus.ai/*"
+  ],
+  
+  "background": {
+    "service_worker": "background.js"
+  },
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Publish Nexus AI"
+  },
+
+  "options_page": "options.html",
+  
+  "content_scripts": [{
+    "matches": [
+      "*://*.amazon.com/*",
+      "*://*.amazon.es/*",
+      "*://*.amazon.co.uk/*",
+      "*://*.amazon.de/*",
+      "*://*.amazon.fr/*",
+      "*://*.amazon.it/*",
+      "*://*.amazon.ca/*",
+      "*://*.amazon.com.mx/*",
+      "*://*.amazon.com.br/*"
+    ],
+    "js": ["content.js"],
+    "css": ["styles.css"],
+    "run_at": "document_idle"
+  }],
+  
+  "web_accessible_resources": [{
+    "resources": ["popup.html", "styles.css"],
+    "matches": [
+      "*://*.amazon.com/*",
+      "*://*.amazon.es/*",
+      "*://*.amazon.co.uk/*",
+      "*://*.amazon.de/*",
+      "*://*.amazon.fr/*",
+      "*://*.amazon.it/*",
+      "*://*.amazon.ca/*",
+      "*://*.amazon.com.mx/*",
+      "*://*.amazon.com.br/*"
+    ]
+  }]
+}
